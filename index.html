@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0a4d2c">
+    <title>Phỏm Online (Tá Lả) - Mobile Web Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Simulator Header Toolbar -->
+    <header class="simulator-bar">
+        <div class="sim-brand">
+            <span>♠️♥️</span>
+            <span>PHỎM PRO (TÁ LẢ)</span>
+        </div>
+        <div class="sim-controls">
+            <button id="btnModeLandscape" class="sim-btn active" title="Chế độ điện thoại xoay ngang (Khuyên dùng)">📱 Mobile Ngang</button>
+            <button id="btnModePortrait" class="sim-btn" title="Chế độ điện thoại màn hình dọc">📱 Mobile Dọc</button>
+            <button id="btnModeFluid" class="sim-btn" title="Tràn màn hình">💻 Toàn màn hình</button>
+            <button id="btnSoundToggle" class="sim-btn">🔊 Âm thanh</button>
+            <button id="btnDealNew" class="sim-btn">🚪 Sảnh / Phòng</button>
+        </div>
+    </header>
+
+    <!-- Main Game Viewport -->
+    <main class="game-viewport">
+        <div id="deviceFrame" class="device-frame landscape">
+            <div class="poker-table">
+
+                <!-- Game Top Info Bar -->
+                <div class="game-top-bar">
+                    <div class="room-badge">
+                        <span id="roomBadgeCode">🏷️ Phòng Online</span>
+                        <span id="roomBadgePlayers" style="color:#68d391;margin-left:4px;">● (0/4)</span>
+                    </div>
+                    <div id="roundBadge" class="round-badge">Vòng: 1/4</div>
+                </div>
+
+                <!-- SEAT 2: TOP OPPONENT -->
+                <div id="seatTop" class="seat seat-top">
+                    <div class="player-info">
+                        <div class="avatar-wrapper">
+                            <span class="avatar-img">👨‍🎨</span>
+                            <svg class="timer-ring" viewBox="0 0 46 46">
+                                <circle class="timer-circle-bg" cx="23" cy="23" r="20" />
+                                <circle class="timer-circle-val" cx="23" cy="23" r="20" />
+                            </svg>
+                        </div>
+                        <div class="player-details">
+                            <span class="player-name">Người chơi 2</span>
+                            <span class="player-status">Đang đợi</span>
+                        </div>
+                    </div>
+                    <div id="oppHand_2" class="opp-cards"></div>
+                    <!-- Lá bài ăn được để trước mặt đối thủ -->
+                    <div id="oppEaten_2" class="player-eaten-cards"></div>
+                    <div id="oppMelds_2" class="player-melds"></div>
+                    <div id="oppDiscards_2" class="player-discards"></div>
+                </div>
+
+                <!-- SEAT 1: LEFT OPPONENT -->
+                <div id="seatLeft" class="seat seat-left">
+                    <div class="player-info">
+                        <div class="avatar-wrapper">
+                            <span class="avatar-img">👨‍💼</span>
+                            <svg class="timer-ring" viewBox="0 0 46 46">
+                                <circle class="timer-circle-bg" cx="23" cy="23" r="20" />
+                                <circle class="timer-circle-val" cx="23" cy="23" r="20" />
+                            </svg>
+                        </div>
+                        <div class="player-details">
+                            <span class="player-name">Người chơi 1</span>
+                            <span class="player-status">Đang đợi</span>
+                        </div>
+                    </div>
+                    <div id="oppHand_1" class="opp-cards"></div>
+                    <!-- Lá bài ăn được để trước mặt đối thủ -->
+                    <div id="oppEaten_1" class="player-eaten-cards"></div>
+                    <div id="oppMelds_1" class="player-melds"></div>
+                    <div id="oppDiscards_1" class="player-discards"></div>
+                </div>
+
+                <!-- CENTER TABLE (Chỉ còn Nọc bài ở trung tâm) -->
+                <div class="center-table">
+                    <!-- Nọc (Draw Deck) -->
+                    <div id="nocDeck" class="noc-container" title="Bấm để Bốc bài">
+                        <div class="deck-stack">
+                            <div class="deck-card"></div>
+                            <div class="deck-card"></div>
+                            <div class="deck-card"></div>
+                        </div>
+                        <span id="nocCount" class="noc-badge">19 lá</span>
+                    </div>
+                </div>
+
+                <!-- SEAT 3: RIGHT OPPONENT -->
+                <div id="seatRight" class="seat seat-right">
+                    <div class="player-info">
+                        <div class="avatar-wrapper">
+                            <span class="avatar-img">👩‍🔬</span>
+                            <svg class="timer-ring" viewBox="0 0 46 46">
+                                <circle class="timer-circle-bg" cx="23" cy="23" r="20" />
+                                <circle class="timer-circle-val" cx="23" cy="23" r="20" />
+                            </svg>
+                        </div>
+                        <div class="player-details">
+                            <span class="player-name">Người chơi 3</span>
+                            <span class="player-status">Đang đợi</span>
+                        </div>
+                    </div>
+                    <div id="oppHand_3" class="opp-cards"></div>
+                    <!-- Lá bài ăn được để trước mặt đối thủ -->
+                    <div id="oppEaten_3" class="player-eaten-cards"></div>
+                    <div id="oppMelds_3" class="player-melds"></div>
+                    <div id="oppDiscards_3" class="player-discards"></div>
+                </div>
+
+                <!-- SEAT 0: BOTTOM (BẠN - NGƯỜI CHƠI) -->
+                <div id="seatUser" class="seat seat-bottom">
+                    <!-- Khay Bài đã đánh & Khay Bài đã Ăn (để ngửa trước mặt) -->
+                    <div class="user-trays-container">
+                        <div class="user-discards-wrapper">
+                            <span class="tray-label">Bài bạn đã đánh:</span>
+                            <div id="userDiscards" class="player-discards user-discards"></div>
+                        </div>
+                        <div class="user-eaten-wrapper">
+                            <span class="tray-label eaten-label">Bài đã ăn (trước mặt):</span>
+                            <div id="userEatenCards" class="player-eaten-cards"></div>
+                        </div>
+                    </div>
+
+                    <!-- Hand Cards of Human Player -->
+                    <div class="hand-wrapper">
+                        <div id="userHand" class="cards-fan">
+                            <!-- Cards rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Contextual Action Bar -->
+                    <div class="action-bar">
+                        <div class="player-info" style="margin-right: 6px;">
+                            <div class="avatar-wrapper">
+                                <span class="avatar-img">🧑‍💻</span>
+                                <svg class="timer-ring" viewBox="0 0 46 46">
+                                    <circle class="timer-circle-bg" cx="23" cy="23" r="20" />
+                                    <circle class="timer-circle-val" cx="23" cy="23" r="20" />
+                                </svg>
+                            </div>
+                            <div class="player-details">
+                                <span class="player-name">Bạn</span>
+                                <span id="userStatus" class="player-status">Lượt của bạn</span>
+                            </div>
+                        </div>
+
+                        <!-- Nút Bốc & Ăn (chỉ hiện khi bắt đầu lượt cần lấy bài) -->
+                        <button id="btnEat" class="btn-action btn-eat hidden">
+                            <span>✨</span>
+                            <span>ĂN BÀI</span>
+                        </button>
+                        <button id="btnDraw" class="btn-action btn-draw hidden">
+                            <span>📥</span>
+                            <span>BỐC NỌC</span>
+                        </button>
+
+                        <!-- Nút ĐÁNH BÀI (Chỉ xuất hiện khi click chọn 1 lá bài) -->
+                        <button id="btnPlay" class="btn-action btn-play hidden">
+                            <span>🚀</span>
+                            <span id="btnPlayText">ĐÁNH BÀI</span>
+                        </button>
+
+                        <!-- Nút HẠ BÀI / CHÁY (Chỉ hiện khi đánh lá cuối vòng 4) -->
+                        <button id="btnMeld" class="btn-action btn-meld hidden">
+                            <span>👑</span>
+                            <span>HẠ BÀI</span>
+                        </button>
+                        <button id="btnChay" class="btn-action btn-chay hidden">
+                            <span>🔥</span>
+                            <span>BỊ CHÁY (MÓM)</span>
+                        </button>
+
+                        <!-- Nút GỬI BÀI (Hiện sau khi hạ bài) -->
+                        <button id="btnSend" class="btn-action btn-send hidden">
+                            <span>📤</span>
+                            <span>GỬI BÀI & XONG</span>
+                        </button>
+
+                        <!-- Tiện ích: Xếp bài -->
+                        <button id="btnSort" class="btn-action btn-sort">
+                            <span>✨ Xếp bài</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Toast Banner for Announcements -->
+                <div id="gameToast" class="toast-msg">Chào mừng bạn vào bàn Phỏm!</div>
+
+                <!-- End of Game Scoring Modal -->
+                <div id="scoreModal" class="modal-overlay">
+                    <div class="modal-card">
+                        <h2 class="modal-title">🏆 KẾT QUẢ VÁN BÀI</h2>
+                        <table class="score-table">
+                            <thead>
+                                <tr>
+                                    <th>Hạng</th>
+                                    <th>Người chơi</th>
+                                    <th>Phỏm</th>
+                                    <th>Điểm rác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalScoreTable">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                        <button id="btnCloseModal" class="btn-modal">Ván Tiếp Theo 🎮</button>
+                    </div>
+                </div>
+
+                <!-- ONLINE LOBBY MODAL (Sảnh tạo / vào phòng) -->
+                <div id="lobbyModal" class="modal-overlay open">
+                    <div class="modal-card lobby-card">
+                        <div class="lobby-header">
+                            <span style="font-size: 28px;">♠️♥️</span>
+                            <h2 class="modal-title" style="margin: 0;">PHỎM ONLINE</h2>
+                            <p style="font-size: 12px; color: #94a3b8; margin-top: 2px;">Chơi 2-4 người cùng bạn bè qua mạng</p>
+                        </div>
+
+                        <!-- BƯỚC 1: NHẬP TÊN & TẠO/VÀO PHÒNG -->
+                        <div id="lobbyStepInit" class="lobby-step">
+                            <div class="lobby-field">
+                                <label class="lobby-label">Tên hiển thị của bạn:</label>
+                                <input type="text" id="inputPlayerName" class="lobby-input" placeholder="Nhập tên của bạn..." maxlength="12" value="Bạn">
+                            </div>
+
+                            <div class="lobby-field">
+                                <label class="lobby-label">Chọn Avatar:</label>
+                                <div id="avatarPicker" class="avatar-picker">
+                                    <span class="avatar-option active" data-av="🧑‍💻">🧑‍💻</span>
+                                    <span class="avatar-option" data-av="👩‍🔬">👩‍🔬</span>
+                                    <span class="avatar-option" data-av="👨‍🎨">👨‍🎨</span>
+                                    <span class="avatar-option" data-av="👨‍💼">👨‍💼</span>
+                                    <span class="avatar-option" data-av="🥷">🥷</span>
+                                    <span class="avatar-option" data-av="👸">👸</span>
+                                    <span class="avatar-option" data-av="🤠">🤠</span>
+                                    <span class="avatar-option" data-av="🦁">🦁</span>
+                                </div>
+                            </div>
+
+                            <div class="lobby-actions-grid">
+                                <button id="btnCreateRoom" class="btn-lobby btn-primary">
+                                    <span>➕</span>
+                                    <span>TẠO PHÒNG MỚI</span>
+                                </button>
+                                
+                                <div class="join-room-box">
+                                    <input type="text" id="inputRoomCode" class="lobby-input code-input" placeholder="Mã PIN (VD: AB123)" maxlength="6">
+                                    <button id="btnJoinRoom" class="btn-lobby btn-secondary">
+                                        <span>🔗</span>
+                                        <span>VÀO PHÒNG</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="lobby-divider"><span>HOẶC</span></div>
+
+                            <button id="btnPlayOffline" class="btn-lobby btn-offline">
+                                <span>🤖</span>
+                                <span>Chơi Thử Với Bot (Offline)</span>
+                            </button>
+                        </div>
+
+                        <!-- BƯỚC 2: PHÒNG CHỜ (LOBBY ROOM WAITING) -->
+                        <div id="lobbyStepRoom" class="lobby-step hidden">
+                            <div class="room-pin-display">
+                                <span class="room-pin-label">MÃ PHÒNG:</span>
+                                <span id="displayRoomPin" class="room-pin-value">-----</span>
+                                <button id="btnCopyLink" class="btn-copy" title="Sao chép link mời bạn">📋 Copy Link</button>
+                            </div>
+
+                            <p style="font-size: 12px; color: #38bdf8; margin-bottom: 10px;">Gửi link hoặc mã phòng trên cho bạn bè để cùng vào bàn!</p>
+
+                            <!-- Danh sách người chơi trong phòng -->
+                            <div class="lobby-seats-list" id="lobbySeatsList">
+                                <!-- Rendered dynamically -->
+                            </div>
+
+                            <div class="lobby-room-actions">
+                                <button id="btnStartOnlineGame" class="btn-lobby btn-primary hidden">
+                                    <span>🎮</span>
+                                    <span>BẮT ĐẦU VÁN BÀI</span>
+                                </button>
+                                <button id="btnToggleReady" class="btn-lobby btn-secondary hidden">
+                                    <span>✅</span>
+                                    <span>SẴN SÀNG</span>
+                                </button>
+                                <button id="btnLeaveRoom" class="btn-lobby btn-offline" style="margin-top: 8px;">
+                                    <span>🚪</span>
+                                    <span>Rời Phòng</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="sound.js"></script>
+    <script src="phom-logic.js"></script>
+    <script src="online-client.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
