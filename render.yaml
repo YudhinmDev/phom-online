@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: phom-online
+    env: node
+    plan: free
+    buildCommand: echo "No build required"
+    startCommand: node server.js
